@@ -1,6 +1,6 @@
-﻿using ColorsCommonMCP;
+﻿using AircraftsCommonMCP;
 
-namespace ColorsMCP_HTTP
+namespace AircraftsMCP_HTTP
 {
     public class Program
     {
@@ -11,7 +11,7 @@ namespace ColorsMCP_HTTP
             builder.Services
                 .AddMcpServer()
                 .WithHttpTransport()
-                .WithTools<ColorsTools>();
+                .WithTools<AircraftsTools>();
 
             builder.Services.AddCors(options =>
             {
@@ -23,11 +23,11 @@ namespace ColorsMCP_HTTP
                 });
             });
 
-            builder.Services.AddSingleton<ColorsService>();
+            builder.Services.AddSingleton<AircraftsService>();
 
             var app = builder.Build();
 
-            var colorsService = app.Services.GetRequiredService<ColorsService>(); 
+            var colorsService = app.Services.GetRequiredService<AircraftsService>(); 
 
             app.UseCors();
 

@@ -8,16 +8,9 @@ namespace MCPClient
         {
             Console.WriteLine("*** MCP Client ***");
 
-            //var clientTransport = new StdioClientTransport(new StdioClientTransportOptions
-            //{
-            //    Name = "ColorsMCP",
-            //    Command = "dotnet",
-            //    Arguments = ["run", "--project", "c:/dev/ColorsMCP/ColorsMCP/ColorsMCP.csproj"]
-            //});
-
             var clientTransport = new SseClientTransport(new SseClientTransportOptions
             {
-                Name = "ColorsMCP",
+                Name = "AircraftsMCP",
                 Endpoint = new Uri("http://localhost:3000/")
             });
 
@@ -30,12 +23,16 @@ namespace MCPClient
             }
             Console.WriteLine($"---");
 
-            var result = await client.CallToolAsync(
-                "GetColor",
-                new Dictionary<string, object?>() { ["name"] = "Red" },
-                cancellationToken: CancellationToken.None);
+            var aircraftNames = new[] { "Boeing737", "AirbusA320", "Cessna172", "F16", "Concorde" };
+            foreach (var aircraftName in aircraftNames)
+            {
+                var result = await client.CallToolAsync(
+                    "GetAircraft",
+                    new Dictionary<string, object?>() { ["name"] = aircraftName },
+                    cancellationToken: CancellationToken.None);
 
-            Console.WriteLine(result.Content.First(c => c.Type == "text").Text);
+                Console.WriteLine($"{aircraftName}: {result.Content.First(c => c.Type == "text").Text}");
+            }
         }
     }
 }
